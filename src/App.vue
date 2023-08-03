@@ -5,10 +5,10 @@ import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
-
-<Navbar />
-<RouterView />
+    <div class="h-screen overflow-hidden bg-lime-50">
+        <Navbar />
+        <RouterView />
+    </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

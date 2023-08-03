@@ -56,8 +56,8 @@ const page = ref('');
             </div>
             <transition name="slide">
                 <div v-if="isOpen">
-                    <div :class="{ 'block': isOpen, 'hidden': !isOpen }" class="md:hidden" id="mobile-menu">
-                        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <div :class="{ 'block': isOpen, 'hidden': !isOpen }" class="md:hidden shadow-sm" id="mobile-menu">
+                        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 grid grid-cols-1 divide-y">
                             <RouterLink to="/"
                                 class="text-gray-500 hover:underline block px-3 py-2 rounded-md text-base font-medium"
                                 :class="{ 'active-mobile underline text-green-700': page === 'home' }"
@@ -102,36 +102,33 @@ const page = ref('');
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .slide-enter,
 .slide-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
-  height: 0;
+    transform: translateY(-100%);
+    opacity: 0;
+    height: 0;
 }
 
 .slide-enter-to,
 .slide-leave {
-  transform: translateY(0%);
-  opacity: 1;
-  height: auto;
+    transform: translateY(0%);
+    opacity: 1;
+    height: auto;
 }
 
 .slide-leave-active {
-  position: absolute;
+    position: absolute;
 }
 
 .menu {
-  opacity: 0;
+    opacity: 0;
 }
 
 .slide-enter-active .menu,
 .slide-enter-to .menu {
-  opacity: 1;
+    opacity: 1;
 }
-
-
-
 </style>
