@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import HomeSvg from '@/components/HomeSvg.vue'
 </script>
 
 <template>
   <main>
-    <div class="wrapper">
-      <h1>Home</h1>
-    </div>
+      <h1 class="text-4xl font-medium">Home</h1>
+      <HomeSvg />
   </main>
 </template>
