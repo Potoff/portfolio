@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import Projects from '@/components/Projects/Projects.vue'
-import type { ProjectInterface } from '@/interfaces';
-
-defineProps<{
-    projects: ProjectInterface[]
-}>()
-
-
 </script>
 
 <template>
-<Projects :projects="projects" />
-
+  <main>
+    <div class="wrapper">
+      <h1>Projects</h1>
+    </div>
+  </main>
 </template>
-
-<style scoped>
-</style>
