@@ -3,7 +3,7 @@ import HomeSvg from '@/components/HomeSvg.vue';
 </script>
 
 <template>
-  <main class="h-full">
+  <main class="h-full overflow-hidden">
     <div class="flex flex-col items-center justify-between content-between h-fit md:flex-row md:justify-center md:mt-36">
       <div class="flex flex-col justify-between items-center content-between h-60">
         <h1 class="text-6xl font-bold text-green-700">Paul Demarest</h1>
