@@ -11,24 +11,26 @@ defineProps<{
 </script>
 
 <template>
-    <div class="bg-white rounded-lg shadow-sm border  overflow-hidden">
+    <a :href="project.url" target="_blank">
+    <div class="bg-white rounded-lg shadow-sm border  overflow-hidden h-full flex flex-col justify-between items-start">
         <img :src="project.image" alt="Image du projet" class="w-full h-48 object-cover">
         <div class="p-4">
             <h2 class="text-lg font-bold mb-2">{{ project.title }}</h2>
             <p class="text-gray-500 text-base">{{ project.description }}</p>
         </div>
         <button class="p-4">
-            <a :href="project.url" target="_blank" class="text-blue-500 hover:underline">View Project</a>
+            <a :href="project.url" target="_blank" class="text-blue-500 hover:underline">Visiter le site</a>
         </button>
         <div class="flex items-center justify-start p-2">
             <div class="mt-4">
                 <span class="text-gray-600 font-bold text-sm bg-lime-300 rounded-lg p-2">{{ project.category }}</span>
             </div>
-            <div class="mt-4 p-2">
+            <div class="mt-4 p-2" v-if="project.style">
                 <span class="text-gray-600 font-bold text-sm bg-amber-300 rounded-lg p-2">{{ project.style }}</span>
             </div>
         </div>
     </div>
+</a>
 </template>
 
 <style scoped></style>
