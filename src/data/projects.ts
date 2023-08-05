@@ -4,7 +4,7 @@ export default [
     {
         id: 1,
         title: 'My Portfolio',
-        image: 'src/assets/images/portfolio.png',
+        image: '/images/portfolio.png',
         url: 'https://portfolio.paul-dem.com',
         description: 'This is my portfolio lorem ',
         category: 'vue.js',
@@ -13,7 +13,7 @@ export default [
     {
         id: 2,
         title: 'My Portfolio',
-        image: "src/assets/images/portfolio.png",
+        image: '/images/portfolio.png',
         url: 'https://portfolio.paul-dem.com',
         description: 'This is my portfolio lorem',
         category: 'vue.js',
@@ -22,7 +22,7 @@ export default [
     {
         id: 3,
         title: 'My Portfolio',
-        image: 'src/assets/images/portfolio.png',
+        image: '/images/portfolio.png',
         url: 'https://portfolio.paul-dem.com',
         description: 'This is my portfolio',
         category: 'vue.js',
@@ -31,7 +31,7 @@ export default [
     {
         id: 4,
         title: 'My Portfolio',
-        image: 'src/assets/images/portfolio.png',
+        image: '/images/portfolio.png',
         url: 'https://portfolio.paul-dem.com',
         description: 'This is my portfolio',
         category: 'vue.js',
