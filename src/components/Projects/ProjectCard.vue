@@ -1,36 +1,50 @@
 <script setup lang="ts">
 import type { ProjectInterface } from '@/interfaces';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 
 defineProps<{
     project: ProjectInterface;
 }>()
 
+const showDescription = ref(false);
+const show = ref(false)
+
+const toggleDescription = () => {
+    showDescription.value = !showDescription.value;
+}
+
 
 </script>
 
 <template>
-    <a :href="project.url" target="_blank">
-    <div class="bg-white rounded-lg shadow-sm border  overflow-hidden h-full flex flex-col justify-between items-start">
-        <img :src="project.image" alt="Image du projet" class="w-full h-48 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-bold mb-2">{{ project.title }}</h2>
-            <p class="text-gray-500 text-base">{{ project.description }}</p>
-        </div>
-        <button class="p-4">
-            <a :href="project.url" target="_blank" class="text-blue-500 hover:underline">Visiter le site</a>
-        </button>
-        <div class="flex items-center justify-start p-2">
-            <div class="mt-4">
-                <span class="text-gray-600 font-bold text-sm bg-lime-300 rounded-lg p-2">{{ project.category }}</span>
-            </div>
-            <div class="mt-4 p-2" v-if="project.style">
-                <span class="text-gray-600 font-bold text-sm bg-amber-300 rounded-lg p-2">{{ project.style }}</span>
-            </div>
-        </div>
+    <div>
+        <v-card class="mx-auto" max-width="344">
+            <v-img :src="project.image" height="250px" width="auto" cover></v-img>
+            <v-card-title>
+                {{ project.title }}
+            </v-card-title>
+            <v-card-actions>
+                <v-btn color="orange-lighten-2" variant="text" :href="project.url" target="blank">
+                    Visiter
+                </v-btn>
+
+                <v-spacer></v-spacer>
+
+                <v-btn :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="show = !show"></v-btn>
+            </v-card-actions>
+
+            <v-expand-transition>
+                <div v-show="show">
+                    <v-divider></v-divider>
+
+                    <v-card-text>
+                        {{ project.description }}
+                    </v-card-text>
+                </div>
+            </v-expand-transition>
+        </v-card>
     </div>
-</a>
 </template>
 
 <style scoped></style>

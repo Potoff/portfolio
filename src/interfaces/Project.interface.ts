@@ -1,5 +1,5 @@
-export type Category = 'wordpress' | 'vue.js' | 'node.js';
-export type Style = 'css vanilla' | 'sass' | 'bootstrap' | 'materialize' | 'tailwindcss';
+export type Category = 'wordpress' | 'vue.js' | 'node.js' | 'python';
+export type Style = 'css vanilla' | 'sass' | 'bootstrap' | 'uikit' | 'tailwindcss';
 
 export interface ProjectInterface {
     id: number;
