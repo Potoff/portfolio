@@ -73,6 +73,14 @@ export default [
         category: 'vue.js',
         style: 'tailwindcss'
     },
-    
+    {
+        id: 9,
+        title: 'Promotewave',
+        image: '/images/promotewave.png',
+        url: 'https://promotewave.com/',
+        description: 'Site e-commerce pour service de promotions de réseaux sociaux.',
+        category: 'wordpress',
+        style: ''
+    }
 
 ] as ProjectInterface[];

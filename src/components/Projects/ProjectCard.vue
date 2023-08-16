@@ -41,6 +41,11 @@ const toggleDescription = () => {
                     <v-card-text>
                         {{ project.description }}
                     </v-card-text>
+                    <v-divider></v-divider>
+                    <div class="flex m-2 p-2 justify-between items-center">
+                        <span class="rounded bg-green-50 shadow p-1 text-sm">{{ project.category }}</span>
+                        <span class="rounded bg-blue-50 shadow p-1 text-sm" v-if="project.style">{{ project.style }}</span>
+                    </div>
                 </div>
             </v-expand-transition>
         </v-card>

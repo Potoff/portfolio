@@ -14,7 +14,7 @@ const state = reactive<{
 </script>
 
 <template>
-    <div class="min-h-screen bg-lime-50">
+    <div class="min-h-screen bg-lime-50 overflow-hidden">
         <Navbar />
         <RouterView :projects="state.projects" />
     </div>
