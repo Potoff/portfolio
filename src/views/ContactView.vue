@@ -1,70 +1,89 @@
 <script setup lang="ts">
 import emailjs from 'emailjs-com';
 import { ref } from 'vue';
-import { useField, useForm } from 'vee-validate';
+import { useForm, useField } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as zod from 'zod';
+import { watch } from 'vue';
 
-const validationSchema = toTypedSchema(zod.object({
-  name: zod.string().min(3, {message: "Trop court ! "}).max(50, {message: "Trop long fréro ! "}).nonempty({message: "Merci de rentrer un nom fréro!"}),
-  mail: zod.string().email().nonempty("Merci de rentrer une adresse mail").email({message: 'Veuillez entrer une adresse mail valide'}),
-  message: zod.string().min(10).max(500).nonempty(),
-}));
 
-const { handleSubmit, errors } = useForm({
+
+const formRef = ref<HTMLFormElement | null>(null);
+
+
+const validationSchema =
+  toTypedSchema(
+    zod.object({
+      name: zod.string().nonempty('Merci de saisir un nom').min(2, "Merci de saisir un nom valide ! "),
+      mail: zod.string().nonempty("Merci de rentrer une adresse mail").email('Veuillez entrer une adresse mail valide').email({ message: 'Veuillez entrer une adresse mail valide' }),
+      message: zod.string().nonempty().min(10, 'Le message doit contenir au moins 10 caractères'),
+    }));
+
+
+const { resetForm, values, handleSubmit, errors } = useForm({
   validationSchema,
 });
-
-const { value: name, errorMessage: nameError } = useField('name');
-const { value: mail, errorMessage: mailError } = useField('mail');
-const { value: message, errorMessage: messageError } = useField('message');
 
 const loading = ref(false);
 const successMessage = ref("");
 
-function sendEmail(e: any) {
-  loading.value = true;
-  emailjs.sendForm('service_jqeq6va', 'template_fcvps3y', e.target, 'eL6z135ZsLYy_Oi6I')
-    .then(
-      (result) => {
-        successMessage.value = " Ton message a bien été envoyé, merci !";
-        loading.value = false;
-        console.log(result);
-        e.target.reset();
-      },
-      (error) => { console.log(error.text); });
+const { value: name, errorMessage: nameError } = useField<string>('name');
+const { value: mail, errorMessage: mailError } = useField<string>('mail');
+const { value: message, errorMessage: messageError } = useField<string>('message');
+
+async function submitForm(values: any) {
+  if (formRef.value) {
+    try {
+      loading.value = true;
+      await emailjs.sendForm('service_jqeq6va', 'template_fcvps3y', formRef.value, 'eL6z135ZsLYy_Oi6I');
+      resetForm();
+      successMessage.value = " Ton message a bien été envoyé, merci !";
+    } catch (error) {
+      console.log(error);
+    } finally {
+      loading.value = false;
+      formRef.value.reset();
+    }
+  }
 }
 
-const onSubmit = handleSubmit(values => {
-  alert(JSON.stringify(values, null, 2));
-});
+const hideSuccessMessage = () => {
+  successMessage.value = "";
+}
 
+watch(successMessage, (newValue) => {
+  if (newValue) {
+    setTimeout(hideSuccessMessage, 5000);
+  }
+}
+);
 
 </script>
 
 <template>
-  <div class="w-full max-w-xs mx-auto my-20">
-    <div v-if="successMessage" class="mb-10"> 
+  <div class="w-full max-w-xs mx-auto my-20" >
+    <div v-if="successMessage" class="mb-10 success-message">
       <p class="text-green-600 text-center text-xl">{{ successMessage }}</p>
     </div>
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="contact-form" @submit.prevent="sendEmail" :aria-disabled="loading">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" id="contact-form" :aria-disabled="loading" ref="formRef"
+      @submit.prevent="submitForm">
       <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="name"> Nom </label> <input
-          :disabled="loading"
+          v-model="name" :disabled="loading"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="name" type="text" placeholder="Jean" name="name">
+          :class="{ 'border-red-500': nameError }" id="name" type="text" placeholder="Jean" name="name">
         <span class="text-red-500 text-xs italic" v-if="nameError">{{ nameError }}</span>
-        </div>
+      </div>
       <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="mail"> Mail </label> <input
-          :disabled="loading"
+          v-model="mail" :disabled="loading"
           class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="mail" type="email" placeholder="jean@valjean.com" name="mail"> 
-          <span class="text-red-500 text-xs italic" v-if="nameError">{{ mailError }}</span>
-        </div>
+          :class="{ 'border-red-500': mailError }" id="mail" type="email" placeholder="jean@valjean.com" name="mail">
+        <span class="text-red-500 text-xs italic" v-if="mailError">{{ mailError }}</span>
+      </div>
       <div class="mb-4"> <label class="block text-gray-700 text-sm font-bold mb-2" for="message"> Message </label>
-        <textarea :disabled="loading"
+        <textarea :disabled="loading" :class="{ 'border-red-500': messageError }"
           class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="message" type="" placeholder="votre message" size="40" name="message"></textarea>
-        <span class="text-red-500 text-xs italic" v-if="nameError">{{ messageError }}</span>
+          id="message" type="" placeholder="votre message" size="40" name="message" v-model="message"></textarea>
+        <span class="text-red-500 text-xs italic" v-if="messageError">{{ messageError }}</span>
       </div>
       <div class="flex items-center justify-between">
         <button
@@ -72,7 +91,7 @@ const onSubmit = handleSubmit(values => {
           type="submit" v-if="!loading">
           Envoyer
         </button>
-        <div role="status" v-if="loading">
+        <div role="status" v-if="loading" class="mx-auto">
           <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-100 animate-spin dark:text-gray-300 fill-green-600"
             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -88,4 +107,14 @@ const onSubmit = handleSubmit(values => {
     </form>
   </div>
 </template>
-<style></style>
+<style>
+.success-message {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+</style>
